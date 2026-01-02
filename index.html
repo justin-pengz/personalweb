@@ -1,9 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Justin Peng</title>
+    <meta name="description"
+        content="Portfolio of Justin Peng, Electrical Engineering Student at Georgia Tech and Founder of NavAbility Technologies.">
+    <meta name="keywords" content="Justin Peng, Electrical Engineer, Georgia Tech, NavAbility, Robotics, CV, Portfolio">
+    <meta name="author" content="Justin Peng">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Justin Peng">
+    <meta property="og:description" content="Electrical Engineering Student at Georgia Tech & Founder of NavAbility.">
+    <meta property="og:url" content="https://justinpeng.ca">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Justin Peng - Electrical Engineer">
+    <meta name="twitter:description"
+        content="Founder of NavAbility Technologies & Georgia Tech Electrical Engineering Student.">
+
+    <!-- Canonical & Robots -->
+    <link rel="canonical" href="https://justinpeng.ca/">
+    <meta name="robots" content="index, follow">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Justin Peng",
+      "jobTitle": "Electrical Engineer & Founder",
+      "url": "https://justinpeng.ca",
+      "affiliation": [
+        {
+            "@type": "Organization",
+            "name": "NavAbility Technologies"
+        },
+        {
+            "@type": "EducationalOrganization",
+            "name": "Georgia Institute of Technology",
+            "url": "https://gatech.edu"
+        }
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Georgia Institute of Technology"
+      },
+      "knowsAbout": ["Electrical Engineering", "Robotics", "Computer Vision", "Python", "C++", "Startups", "Assistive Technology"],
+      "award": [
+        "Crimson 18u18 - Top 18 Most Influential Youth",
+        "Canada Wide Science & Engineering Fair Gold Medalist",
+        "Natural Sciences and Engineering Research Council of Canada Innovation Award"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/jing-quan-peng",
+        "https://github.com/justin-pengz"
+      ]
+    }
+    </script>
+
+    <!-- Favicon (Generated SVG) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 font-family=%22Inter, sans-serif%22 font-weight=%22bold%22>JP</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,20 +87,57 @@
             background-color: var(--color-bg);
             color: var(--color-text);
             line-height: 1.5;
-            font-size: 14px; /* Matches typical resume density */
+            font-size: 14px;
+            /* Matches typical resume density */
+            position: relative;
+            z-index: 1;
         }
+
+
 
         a {
             color: inherit;
             text-decoration: none;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-position: 0% 100%;
+            background-repeat: no-repeat;
+            background-size: 0% 1px;
+            transition: background-size 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s;
+            padding-bottom: 2px;
         }
 
         a:hover {
-            text-decoration: underline;
+            background-size: 100% 1px;
+            opacity: 0.85;
+        }
+
+        /* Smooth Scroll & Selection */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animation Classes */
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            /* Reduced distance */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            /* Removed will-change to prevent rasterization blur in some browsers */
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .container {
-            max-width: 800px; /* Standard A4-ish width for readability */
+            max-width: 800px;
+            /* Standard A4-ish width for readability */
             margin: 0 auto;
             padding: 3rem 1.5rem;
         }
@@ -77,13 +175,18 @@
         /* Layout Elements */
         .entry {
             margin-bottom: 1rem;
+            /* Removed padding and negative margins to restore exact spacing */
         }
+
+        /* Removed hover background/scale to prevent blur & layout shift */
+        /* Keeping strict adherence to original formatting */
 
         .entry-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            flex-wrap: wrap; /* Handle very small screens */
+            flex-wrap: wrap;
+            /* Handle very small screens */
         }
 
         .entry-subtitle {
@@ -112,10 +215,11 @@
         }
 
         /* Specific Sections */
-        .skills-section div, .notable-section div {
+        .skills-section div,
+        .notable-section div {
             margin-bottom: 0.5rem;
         }
-        
+
         strong {
             font-weight: 600;
         }
@@ -125,7 +229,7 @@
             .container {
                 padding: 1.5rem 1rem;
             }
-            
+
             h1 {
                 font-size: 1.75rem;
             }
@@ -137,32 +241,38 @@
             .date {
                 text-align: left;
                 font-size: 0.9rem;
-                color: #444; /* Slight grey for visual hierarchy on mobile if hierarchy is lost */
+                color: #444;
+                /* Slight grey for visual hierarchy on mobile if hierarchy is lost */
                 margin-bottom: 0.25rem;
             }
         }
-        
+
         @media print {
             .container {
                 max-width: 100%;
                 padding: 0;
             }
-            body { 
-                font-size: 11pt; 
+
+            body {
+                font-size: 11pt;
             }
-            a { 
-                text-decoration: none; 
+
+            a {
+                text-decoration: none;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
+    <main class="container">
         <header>
             <h1>Justin Peng</h1>
             <div class="contact-info">
                 Atlanta, GA 30332<br>
-                (770) 362-5723 | <a href="mailto:jpeng319@gatech.edu">jpeng319@gatech.edu</a> | <a href="https://www.linkedin.com/in/jing-quan-peng" target="_blank">www.linkedin.com/in/jing-quan-peng</a>
+                (770) 362-5723 | <a href="mailto:jpeng319@gatech.edu">jpeng319@gatech.edu</a> | <a
+                    href="https://www.linkedin.com/in/jing-quan-peng"
+                    target="_blank">www.linkedin.com/in/jing-quan-peng</a>
             </div>
         </header>
 
@@ -185,13 +295,18 @@
                     <span class="date">Sep 2022 – Present</span>
                 </div>
                 <ul>
-                    <li>Founded and led the development of two wearable assistive technology systems that autonomously steer users away from collision without requiring active control or awareness.</li>
-                    <li>30+ national and international awards totaling over $190,000. Dedicated 2000+ hours across 5 years.</li>
-                    <li>First-author publication with doctorates from the University of Michigan, University of Florida, and Dartmouth College.</li>
+                    <li>Founded and led the development of two wearable assistive technology systems that autonomously
+                        steer users away from collision without requiring active control or awareness.</li>
+                    <li>30+ national and international awards totaling over $190,000. Dedicated 2000+ hours across 5
+                        years.</li>
+                    <li>First-author publication with doctorates from the University of Michigan, University of Florida,
+                        and Dartmouth College.</li>
                     <li>Filed 2 USPTO Provisional Patents (No.63/560,754, No. 63/560,719)</li>
                 </ul>
                 <div class="tech-stack">
-                    <strong>Tech Stack:</strong> YOLO, stereo vision with Intel RealSense D435, panoptic segmentation, collision avoidance with A*, Whisper, Deepgram, NRSDK, XREAL AR Glasses, Google MediaPipe, Ultraleap hand-tracking, ARcore, bone conduction, and an edge to cloud pipeline with Flask.
+                    <strong>Tech Stack:</strong> YOLO, stereo vision with Intel RealSense D435, panoptic segmentation,
+                    collision avoidance with A*, Whisper, Deepgram, NRSDK, XREAL AR Glasses, Google MediaPipe, Ultraleap
+                    hand-tracking, ARcore, bone conduction, and an edge to cloud pipeline with Flask.
                 </div>
             </div>
         </section>
@@ -204,10 +319,11 @@
                     <span class="date">May 2026 – August 2026</span>
                 </div>
                 <ul>
-                    <li>Selected to join the Accenture Industry X practice following a majority-stake acquisition to accelerate end-to-end AI data center development for global hyperscale clients.</li>
+                    <li>Selected to join the Accenture Industry X practice following a majority-stake acquisition to
+                        accelerate end-to-end AI data center development for global hyperscale clients.</li>
                 </ul>
             </div>
-            
+
             <div class="entry">
                 <div class="entry-header">
                     <h3>Rove Miles, <span>Business Development Intern, New York, NY</span></h3>
@@ -215,8 +331,11 @@
                 </div>
                 <ul>
                     <li>Directed a team to create a comprehensive pricing strategy for Rove Miles.</li>
-                    <li>Diagnosed unclear partner pricing that slowed deals and obscured margins, then architected a scalable tiered pricing + subscription system.</li>
-                    <li>Introduced a subscription-based revenue model that offers benefits like lower transaction fees, priority access to miles, and customized pricing to incentivize banks to commit to long-term partnerships.</li>
+                    <li>Diagnosed unclear partner pricing that slowed deals and obscured margins, then architected a
+                        scalable tiered pricing + subscription system.</li>
+                    <li>Introduced a subscription-based revenue model that offers benefits like lower transaction fees,
+                        priority access to miles, and customized pricing to incentivize banks to commit to long-term
+                        partnerships.</li>
                 </ul>
             </div>
         </section>
@@ -228,7 +347,9 @@
                     <h3>Crimson’s 18u18 list - Top 18 Most Influential Youth Under 18 Years Old</h3>
                 </div>
                 <ul>
-                    <li>Selected as one of the top 18 most impactful youth globally under 18 years old for founding NavAbility, representing 15 countries, with an acceptance rate of &lt;1%. Evaluated by judges from the Forbes 30 Under 30 list.</li>
+                    <li>Selected as one of the top 18 most impactful youth globally under 18 years old for founding
+                        NavAbility, representing 15 countries, with an acceptance rate of &lt;1%. Evaluated by judges
+                        from the Forbes 30 Under 30 list.</li>
                 </ul>
             </div>
 
@@ -246,13 +367,15 @@
                     <h3>Top 40 Most Impactful Canadian Youth Initiatives, by the Youth Impact Challenge ($2000)</h3>
                 </div>
                 <ul>
-                    <li>NavAbility Technologies was regarded as the top 40 most impactful Canadian youth initiatives (July 2024).</li>
+                    <li>NavAbility Technologies was regarded as the top 40 most impactful Canadian youth initiatives
+                        (July 2024).</li>
                 </ul>
             </div>
 
             <div class="entry">
                 <div class="entry-header">
-                    <h3>Canada Wide Science & Engineering Fair, 2x Gold Medalist, 2x Silver Medalist & Category Award</h3>
+                    <h3>Canada Wide Science & Engineering Fair, 2x Gold Medalist, 2x Silver Medalist & Category Award
+                    </h3>
                 </div>
                 <ul>
                     <li>Exhibited at Ottawa (May 2021, 2024), Fredericton (May 2022), and Edmonton (May 2023).</li>
@@ -260,12 +383,15 @@
                 </ul>
             </div>
 
-             <div class="entry">
+            <div class="entry">
                 <div class="entry-header">
                     <h3>Additional Recognitions</h3>
                 </div>
                 <ul>
-                    <li>Natural Sciences and Engineering Research Council of Canada Innovation Award, Dean of Faculty of Science Undergraduate Award Simon Fraser University, Provincial Engineers and Geoscientists of British Columbia Award, University of British Columbia Engineering Physics Award, National Ingenious+ Youth Innovation Challenge Winner.</li>
+                    <li>Natural Sciences and Engineering Research Council of Canada Innovation Award, Dean of Faculty of
+                        Science Undergraduate Award Simon Fraser University, Provincial Engineers and Geoscientists of
+                        British Columbia Award, University of British Columbia Engineering Physics Award, National
+                        Ingenious+ Youth Innovation Challenge Winner.</li>
                 </ul>
             </div>
         </section>
@@ -281,9 +407,127 @@
         <section id="notable" class="notable-section">
             <h2>Notable Experiences</h2>
             <div>
-                Harvard Ventures Summer Program from Harvard School of Engineering, Code Club President, Science Club President, Maker and 3D Printing President, Student Government Executive, Technology Specialist Team Lead.
+                Harvard Ventures Summer Program from Harvard School of Engineering, Code Club President, Science Club
+                President, Maker and 3D Printing President, Student Government Executive, Technology Specialist Team
+                Lead.
             </div>
         </section>
-    </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('header, section, .entry');
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -20px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach((el, index) => {
+                el.classList.add('reveal');
+                // Stagger initial load items slightly
+                if (index < 5) {
+                    el.style.transitionDelay = `${index * 0.05}s`;
+                }
+                observer.observe(el);
+            });
+
+            // --- Background Particles ---
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.3; // Very slow velocity
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 2;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height;
+                    if (this.y > height) this.y = 0;
+                }
+
+                draw() {
+                    ctx.fillStyle = 'rgba(150, 150, 150, 0.4)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                // Density: 1 particle per 15000px roughly
+                const count = Math.floor((width * height) / 15000);
+                for (let i = 0; i < count; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Connection styles
+                ctx.strokeStyle = 'rgba(200, 200, 200, 0.15)'; // Very faint lines
+                ctx.lineWidth = 0.5;
+
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    p.update();
+                    p.draw();
+
+                    // Connect close particles
+                    for (let j = i + 1; j < particles.length; j++) {
+                        let p2 = particles[j];
+                        let dx = p.x - p2.x;
+                        let dy = p.y - p2.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resize();
+                initParticles();
+            });
+
+            resize();
+            initParticles();
+            animate();
+        });
+    </script>
 </body>
+
 </html>
