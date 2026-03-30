@@ -101,11 +101,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Optimized Font Loading to prevent render blocking -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"
-        media="print" onload="this.media='all'">
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    </noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         :root {
             --font-main: 'Inter', sans-serif;
@@ -151,6 +147,7 @@
 
         /* Smooth Scroll & Selection */
         html {
+            overflow-y: scroll;
             scroll-behavior: smooth;
         }
 
@@ -158,69 +155,50 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
-        /* Animation Classes */
-        /* Animation Classes */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            /* Reduced distance */
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            /* Removed will-change to prevent rasterization blur in some browsers */
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         /* Layout & Grid */
         .app-layout {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 4rem 2rem;
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 350px minmax(0, 800px);
+            justify-content: center;
             gap: 4rem;
             align-items: start;
         }
 
         .sidebar {
-            position: sticky;
+            position: fixed;
             top: 4rem;
+            width: 350px;
             border-right: 1px solid #e5e5e5;
             padding-right: 2rem;
-            height: fit-content;
-        }
-
-        .sidebar h2 {
-            border-bottom: none;
-            margin-top: 0;
-            padding-bottom: 0;
-            margin-bottom: 0.5rem;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
         }
 
         .sidebar header {
             border-bottom: 1px solid #e5e5e5;
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .profile-photo {
-            width: 160px;
-            height: 160px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
             border-radius: 12px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar-section {
             border-bottom: 1px solid #e5e5e5;
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
         }
 
         .sidebar-section:last-child {
@@ -228,6 +206,7 @@
         }
 
         .content {
+            grid-column: 2;
             min-width: 0;
             /* Prevent overflow issues */
         }
@@ -266,19 +245,26 @@
         }
 
         /* Navigation Links */
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
         .nav-link {
             font-weight: 600;
-            font-size: 1rem;
-            color: #555;
-            transition: color 0.2s;
-
-
-            display: inline-block;
+            font-size: 0.9rem;
+            color: #000;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             width: fit-content;
+            background-image: none !important;
         }
 
         .nav-link:hover {
-            color: #000;
+            opacity: 0.7;
         }
 
         .container {
@@ -288,20 +274,20 @@
 
         /* Typography */
         h1 {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 700;
             text-align: center;
             margin-bottom: 0.25rem;
         }
 
         .contact-info {
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
             /* text-align removed effectively here as we style inline or rely on inheritance */
         }
 
         h2 {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 700;
 
             border-bottom: 1px solid #000;
@@ -309,6 +295,19 @@
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
 
+        }
+
+        .sidebar h2 {
+            border-bottom: none;
+            margin-top: 0;
+            padding-bottom: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .sidebar p {
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
         .content section:first-child h2 {
@@ -321,6 +320,11 @@
         }
 
         /* Layout Elements */
+        .page-section {
+            min-height: 100vh;
+            /* Prevents the page from collapsing and scrolling the sidebar */
+        }
+
         .entry {
             margin-bottom: 1rem;
         }
@@ -386,6 +390,7 @@
 
             .sidebar {
                 position: static;
+                width: auto;
                 margin-bottom: 0;
                 /* Remove margin */
                 padding-bottom: 0.5rem;
@@ -393,6 +398,10 @@
                 border-right: none;
                 border-bottom: 1px solid #e5e5e5;
                 padding-right: 0;
+            }
+
+            .content {
+                grid-column: 1;
             }
 
             .profile-photo {
@@ -429,11 +438,24 @@
             }
 
             .nav-links {
-                display: flex;
-                flex-direction: row;
-                /* Keep row for now if nav comes back, but currently removed */
-                flex-wrap: wrap;
-                gap: 1rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.5rem;
+                border-radius: 8px;
+                background-color: #fafafa;
+                border: 1px solid #f0f0f0;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .nav-link:hover {
+                background-color: #f0f0f0;
+                border-color: #e5e5e5;
+                opacity: 1;
             }
 
             .container {
@@ -471,6 +493,95 @@
                 text-decoration: none;
             }
         }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap-reverse;
+        }
+
+        @media (min-width: 769px) {
+            .hero {
+                flex-wrap: nowrap;
+            }
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #000;
+            background: #fff;
+            transition: background 0.2s;
+            text-decoration: none !important;
+            background-image: none !important;
+        }
+
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .post-item a {
+            background-image: none !important;
+        }
+
+        .post-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <style>
+        .content {
+            transition: opacity 0.15s ease-in-out;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap-reverse;
+        }
+
+        @media (min-width: 769px) {
+            .hero {
+                flex-wrap: nowrap;
+            }
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #000;
+            background: #fff;
+            transition: background 0.2s;
+            text-decoration: none !important;
+            background-image: none !important;
+        }
+
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .post-item a {
+            background-image: none !important;
+        }
+
+        .post-item a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -478,14 +589,19 @@
 
     <div class="app-layout">
         <aside class="sidebar">
-            <header>
-                <picture>
-                    <source srcset="profilephoto.webp" type="image/webp">
-                    <img src="profilephoto.png"
-                        alt="Justin Peng – Electrical Engineer and Founder of NavAbility Technologies"
-                        class="profile-photo" width="160" height="160" fetchpriority="high">
-                </picture>
-                <h1>Justin Peng</h1>
+            <header
+                style="padding-bottom: 1rem; margin-bottom: 1rem; text-align: center; border-bottom: 1px solid #e5e5e5;">
+                <a href="#home"
+                    style="display: flex; flex-direction: column; align-items: center; text-decoration: none; background-image: none !important; color: #000;">
+                    <picture>
+                        <source srcset="profilephoto.webp" type="image/webp">
+                        <img src="profilephoto.png" alt="Justin Peng" class="profile-photo" width="120" height="120"
+                            fetchpriority="high">
+                    </picture>
+                    <span
+                        style="font-size: 1.8rem; font-weight: 700; display: block; width: 100%; margin-top: 0.5rem;">Justin
+                        Peng</span>
+                </a>
             </header>
 
             <section id="about" class="sidebar-section">
@@ -503,6 +619,47 @@
                         national stages.
                     </p>
                 </div>
+            </section>
+
+            <section id="navigation" class="sidebar-section">
+                <nav class="nav-links">
+                    <a href="#about-me" class="nav-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        About Me
+                    </a>
+                    <a href="#career-goals" class="nav-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                        Career Goals
+                    </a>
+                    <a href="#projects" class="nav-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        Projects
+                    </a>
+                    <a href="#resume" class="nav-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <line x1="10" y1="9" x2="8" y2="9"></line>
+                        </svg>
+                        Resume
+                    </a>
+                </nav>
             </section>
 
             <section id="contact" class="sidebar-section">
@@ -541,213 +698,973 @@
         </aside>
 
         <main class="content">
-            <section id="education">
-                <h2>Education</h2>
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Georgia Institute of Technology (GT), Atlanta, GA</h3>
-                        <span class="date">December 2028</span>
+            <div id="section-home" class="page-section">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1 style="text-align: left; font-size: 2.5rem; margin-bottom: 0.5rem;">Hey, I'm Justin!</h1>
+                        <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 0; color: #333;">I'm an electrical
+                            engineering student at Georgia Tech and founder of NavAbility. I've dedicated over 5 years
+                            to pioneering assistive technologies for the visually and hearing impaired.</p>
                     </div>
-                    <div class="entry-subtitle">Bachelor of Science in Electrical Engineering</div>
                 </div>
-            </section>
 
-            <section id="experience">
-                <h2>Work Experience</h2>
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>NavAbility Technologies, <span>Founder, Atlanta, GA</span></h3>
-                        <span class="date">Sep 2022 – Present</span>
+                <div class="posts-section" style="margin-top: 0;">
+                    <style>
+                        .posts-header-container {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            margin-bottom: 1.5rem;
+                        }
+                        .posts-masonry {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 2rem;
+                            position: relative;
+                        }
+                        .masonry-col {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 2rem;
+                            flex: 1;
+                        }
+                        .masonry-divider {
+                            display: none;
+                        }
+                        @media (min-width: 1025px) {
+                            .posts-masonry {
+                                flex-direction: row;
+                                justify-content: space-between;
+                                padding-bottom: 2rem;
+                            }
+                            .masonry-col {
+                                width: 45%;
+                                flex: none;
+                            }
+                            .masonry-offset {
+                                margin-top: 0;
+                            }
+                            .masonry-divider {
+                                display: flex;
+                                justify-content: center;
+                                width: 2px;
+                                background: #eaeaea;
+                                position: absolute;
+                                left: 50%;
+                                top: 0;
+                                bottom: 0;
+                                transform: translateX(-50%);
+                            }
+                            .divider-year {
+                                background: #eaeaea;
+                                color: #666;
+                                padding: 0.75rem 0.25rem;
+                                writing-mode: vertical-rl;
+                                text-orientation: mixed;
+                                border-radius: 4px;
+                                font-size: 0.95rem;
+                                font-weight: 500;
+                                height: fit-content;
+                                position: sticky;
+                                top: 6rem;
+                            }
+                        }
+                        .update-card {
+                            will-change: transform, box-shadow;
+                            transform: translateZ(0);
+                            backface-visibility: hidden;
+                            border: 1px solid #eaeaea; 
+                            border-radius: 10px; 
+                            background: #fff; 
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+                            transition: all 0.3s ease;
+                            overflow: hidden;
+                            display: flex;
+                            flex-direction: column;
+                            text-decoration: none;
+                            color: inherit;
+                        }
+                        .update-card:hover {
+                            transform: translateY(-4px);
+                            box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important;
+                        }
+                        .update-card img {
+                            width: 100%;
+                            height: auto;
+                            max-height: 260px;
+                            object-fit: cover;
+                            border-bottom: 1px solid #eaeaea;
+                            background-color: #f9f9f9;
+                        }
+                        .update-card-content {
+                            padding: 1.5rem;
+                            display: flex;
+                            flex-direction: column;
+                        }
+                        .update-card-title {
+                            margin: 0 0 0.75rem 0;
+                            font-size: 1.25rem;
+                            font-weight: 700;
+                            line-height: 1.35;
+                            color: #111;
+                        }
+                        .update-card-desc {
+                            margin: 0;
+                            color: #666;
+                            font-size: 0.95rem;
+                            line-height: 1.6;
+                        }
+                    </style>
+
+                    <div class="posts-header-container">
+                        <!-- Header removed per user request -->
                     </div>
-                    <div class="entry-subtitle">Building the next generation of the White Cane for 43 million visually
-                        impaired individuals.</div>
-                    <ul>
-                        <li>Managing a pre-seed venture and pitching top investors (e.g. Y Combinator, PearVC, etc). 30+
-                            national and
-                            international awards totaling over $190,000. Dedicated 2000+ hours across 5 years.
-                            First-author publication on Journal of Student Research. Filed 2 USPTO Provisional Patents
-                            (No.63/560,754, No. 63/560,719).</li>
-                        <li>Developed custom PCBs for a 3-wheel Kiwi drive system; optimized power rails for
-                            high-current motor loads and signal integrity for low-voltage logic. Designed chassis and
-                            sensor mounts in SolidWorks and Fusion.</li>
-                        <li>Integrated Intel RealSense D457 depth camera, ESP32 microcontroller, and IMUs with Nvidia
-                            Jetson Orin Nano via high-bandwidth I2C/SPI to drive real-time collision avoidance and
-                            spatial mapping.</li>
+                    
+                    <div class="posts-masonry">
+                        <!-- Left Column -->
+                        <div class="masonry-col">
+                            <!-- Card 1 -->
+                        <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                            <img src="Post Images/treehacks-447.webp" alt="Stanford TreeHacks Grand Prize" loading="lazy" decoding="async" width="800" height="533">
+                            <div class="update-card-content">
+                                <h3 class="update-card-title">We won the Grand Prize at TreeHacks Stanford University</h3>
+                                <p class="update-card-desc">In just 36 hours, we built RoboSurge, "Cursor for Surgery", a platform enabling autonomous, remote surgical procedures from anywhere on Earth.</p>
+                                
+                                <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">How we did it:</p>
+                                    <p style="margin: 0 0 1rem 0;">
+                                        🔹 <strong>LLM Fusion:</strong> GPT-5.2 + Gemini Robotics-ER 1.5 + SAM + YOLOv11.<br>
+                                        🔹 <strong>The Math:</strong> Custom IK & Runge-Kutta numerical methods.<br>
+                                        🔹 <strong>Safety:</strong> Formally verified trajectories via Lean (Zero-AI proofs).<br>
+                                        🔹 <strong>Environment:</strong> Fully reproducible builds using Nix.
+                                    </p>
+                                    <p style="margin: 0 0 1rem 0;">This year TreeHacks had 378 project submissions on Devpost and 1,098 hackers selected from 15,000+ applicants around the globe!</p>
+                                    <p style="margin: 0 0 1rem 0;">Huge thanks to my incredible teammates Edward Li, Ananth Venkatesh, and Jason Zhao.</p>
+                                    <p style="margin: 0; font-weight: 600;">Check it out: <a href="https://lnkd.in/eTPRk4Cp" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://lnkd.in/eTPRk4Cp</a></p>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- Card 3: Hudson Weekly -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/brightest%20innovators.webp" alt="Brightest Young Innovators of 2024" style="object-position: top;" loading="lazy" decoding="async" width="800" height="1323">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">Named Brightest Young Innovators of 2024 by The Hudson Weekly</h3>
+                                    <p class="update-card-desc">It's an honor to be featured alongside such incredible minds who are driving change and innovation. A heartfelt thank you to my mentors, teachers, friends, and family for their support through this journey.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6; font-style: italic;">
+                                        <p style="margin: 0;">“When it comes to unparalleled innovation, some young minds are not just keeping up; they’re leading the charge. Among many bright young talents, a few standout, quietly driving change and inspiring breakthroughs. This year, Crimson's 18 Under 18 list recognizes such remarkable young achievers who are tackling challenges, inventing solutions, and pushing boundaries in ways that leave us in awe.”</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Vancouver City Hall -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/vancouver%20city%20hall.webp" alt="Vancouver City Hall Council Chamber" loading="lazy" decoding="async" width="800" height="540">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">Pitching Accessibility Solutions at Vancouver City Hall</h3>
+                                    <p class="update-card-desc">Stepping into the Council Chamber, I pitched bold accessibility solutions to elected leaders from the City of Vancouver, Kelowna, and Langley.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Our three actionable strategies:</p>
+                                        <ol style="margin: 0 0 1rem 0; padding-left: 1.25rem;">
+                                            <li style="margin-bottom: 0.5rem;">Efficient distribution of resources and zoning to encourage equitable reform.</li>
+                                            <li style="margin-bottom: 0.5rem;">Prioritizing the construction of high-rise apartments & multi-family homes to increase affordable housing supply.</li>
+                                            <li style="margin-bottom: 0;">Implementing higher speculator tax on Empty Homes to discourage vacancy and speculation.</li>
+                                        </ol>
+                                        <p style="margin: 0;">Thank you <strong>Forum for Young Canadians / Forum pour jeunes Canadiens</strong> for an incredible, fully-funded 3-day experience!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 7: Magazine Cover -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/Magazine.webp" alt="Shaughnessy Magazine Cover Feature" style="object-position: top;" loading="lazy" decoding="async" width="800" height="1020">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">Featured on the Cover of Shaughnessy Magazine</h3>
+                                    <p class="update-card-desc">It’s an incredible privilege to be on the front cover of this month’s issue of Shaughnessy Magazine, discussing the intersection of accessible hardware and youth-led engineering.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0;">A huge thank you to the editorial team for highlighting the work we are doing at NavAbility. From late-night coding sessions to sitting down for a full feature interview, this journey has been nothing short of amazing!</p>
+                                        <p style="margin: 0; font-weight: 500;">Pick up a physical copy to read more about our vision for building a more inclusive and accessible future for everyone.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Central Timeline Divider -->
+                        <div class="masonry-divider">
+                            <div class="divider-year" style="min-height: 40px; min-width: 8px;"></div>
+                        </div>
+
+                        <!-- Right Column (Staggered) -->
+                        <div class="masonry-col masonry-offset">
+                            <!-- Card New: LeadMe -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/LeadMe.webp" alt="LeadMe YHack Hardware Track 2nd Place" loading="lazy" decoding="async" width="800" height="auto">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">We won the Hardware Track (2nd Place) at YHack Yale University</h3>
+                                    <p class="update-card-desc">Introducing LeadMe — an AI-powered, self-navigating white cane designed to give visually impaired users real-time guidance, not just detection.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0; font-weight: 600;">Instead of reacting to obstacles, LeadMe actively guides you:</p>
+                                        <p style="margin: 0 0 1rem 0;">
+                                            🧠 <strong>Real-time obstacle avoidance:</strong> using depth sensing + computer vision<br>
+                                            🗣️ <strong>Natural voice warnings:</strong> and navigation<br>
+                                            🧭 <strong>Turn-by-turn routing:</strong> that you can feel through the cane
+                                        </p>
+                                        <p style="margin: 0 0 1rem 0;">A huge shoutout to my incredible teammates Artem Kim, Satchit Seth, and Sai Guvvala.</p>
+                                        <p style="margin: 0; font-weight: 600;">Check out our Devpost here: <a href="https://lnkd.in/eW3axAUh" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://lnkd.in/eW3axAUh</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 5: TEDx Video Post -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/tedx.webp" alt="TEDx Talk Thumbnail" loading="lazy" decoding="async" width="800" height="450">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">Check out my TEDx Talk</h3>
+                                    <p class="update-card-desc">Accessibility shouldn't be a privilege; it’s a fundamental human right. Watch my TEDx Talk to learn more about the research behind our next-generation assistive technology and how we are working to build a more inclusive future.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0; font-style: italic;">“Standing on stage to present the future of embedded systems for accessibility hardware was an unnerving but completely unforgettable experience. A huge thanks to the TEDx organizers for inviting me to speak!”</p>
+                                        <p style="margin: 0; font-weight: 600;">Watch the full talk here: <a href="https://www.youtube.com/watch?v=rXA-Uj1m0GQ&t=329s" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://www.youtube.com/watch?v=rXA-Uj1m0GQ&t=329s</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 4: 18 under 18 -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/18u18.webp" alt="Crimson's 18 under 18 list" style="object-position: center 20%;" loading="lazy" decoding="async" width="800" height="800">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">I'm in Crimson's 18 under 18 list</h3>
+                                    <p class="update-card-desc">Top 18 most influential teens under 18 years old globally. Crimson’s 18 under 18 list. Me!? How!? Truthfully, I’m still in awe…</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0;">There are 1500+ other applicants who are just as deserving, brilliant innovators and entrepreneurs who each bring something extraordinary to the table.</p>
+                                        <p style="margin: 0 0 1rem 0;">I’ve been developing assistive technology for the visually and hearing impaired, work that has been recognized with over $100K in awards and scholarships from universities, research institutions, and NGOs worldwide.</p>
+                                        <p style="margin: 0 0 1rem 0;">8 years ago, I was just a newcomer to Canada, navigating a tough transition and learning a new language.</p>
+                                        <p style="margin: 0; font-weight: 500;">A heartfelt thank you to my mentors, teachers, and friends. I’m excited to continue on this path of humanitarian research.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Ingenious+ -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/governor%20general.webp" alt="Ingenious+ Award" loading="lazy" decoding="async" width="800" height="600">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">Governor General's Ingenious+ Youth Innovation Award</h3>
+                                    <p class="update-card-desc">I was incredibly honored to receive the prestigious Ingenious+ Youth Innovation Award directly from the Governor General of Canada.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0;">This national award recognizes young innovators who have developed solutions to address problems in their communities and across the world.</p>
+                                        <p style="margin: 0;">Being recognized at this level for my work in assistive technology is surreal, and I am so grateful for the platform to continue building accessible hardware for everyone!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 8: Harvard Ventures -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/harvard.webp" alt="Harvard Ventures Tech Summer Program" style="object-position: top;" loading="lazy" decoding="async" width="630" height="301">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">Harvard Ventures Tech Summer Program</h3>
+                                    <p class="update-card-desc">I had the incredible privilege of attending the highly competitive Harvard Ventures Tech Summer Program (HVTSP) alongside some of the brightest collegiate founders in the country.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0;">Immersing myself in the Harvard ecosystem was a transformative experience. We spent our time diving deep into intense venture capital networking, rapid prototyping frameworks, and receiving invaluable feedback from established industry veterans.</p>
+                                        <p style="margin: 0; font-weight: 500;">Building alongside such a talented group of ambitious founders absolutely shifted my perspective on scaling accessibility hardware, and I am extremely excited to apply these lessons!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-about-me" class="page-section" style="display: none;">
+                <section id="education">
+                    <h2>Education</h2>
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Georgia Institute of Technology (GT), Atlanta, GA</h3>
+                            <span class="date">December 2028</span>
+                        </div>
+                        <div class="entry-subtitle">Bachelor of Science in Electrical Engineering</div>
+                    </div>
+                </section>
+
+                <section id="experience">
+                    <h2>Work Experience</h2>
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>NavAbility Technologies, <span>Founder, Atlanta, GA</span></h3>
+                            <span class="date">Sep 2022 – Present</span>
+                        </div>
+                        <div class="entry-subtitle">Building the next generation of the White Cane for 43 million
+                            visually
+                            impaired individuals.</div>
+                        <ul>
+                            <li>Managing a pre-seed venture and pitching top investors (e.g. Y Combinator, PearVC, etc).
+                                30+
+                                national and
+                                international awards totaling over $190,000. Dedicated 2000+ hours across 5 years.
+                                First-author publication on Journal of Student Research. Filed 2 USPTO Provisional
+                                Patents
+                                (No.63/560,754, No. 63/560,719).</li>
+                            <li>Developed custom PCBs for a 3-wheel Kiwi drive system; optimized power rails for
+                                high-current motor loads and signal integrity for low-voltage logic. Designed chassis
+                                and
+                                sensor mounts in SolidWorks and Fusion.</li>
+                            <li>Integrated Intel RealSense D457 depth camera, ESP32 microcontroller, and IMUs with
+                                Nvidia
+                                Jetson Orin Nano via high-bandwidth I2C/SPI to drive real-time collision avoidance and
+                                spatial mapping.</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Accenture (DLB Associates), <span>Incoming Engineering Intern, Atlanta, GA</span></h3>
+                            <span class="date">May 2026 – August 2026</span>
+                        </div>
+                        <ul>
+                            <li>Selected to join the Accenture Industry X practice following a majority-stake
+                                acquisition to
+                                accelerate end-to-end AI data center development for global hyperscale clients.</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Rove Miles, <span>Business Development Intern, New York, NY</span></h3>
+                            <span class="date">June 2024 – August 2024</span>
+                        </div>
+                        <div class="entry-subtitle">YC-backed startup (W24) developing a points-as-a-service fintech
+                            platform</div>
+                        <ul>
+                            <li>Directed a team to create a comprehensive pricing strategy for Rove Miles.</li>
+                            <li>Introduced a subscription-based revenue model that offers benefits like lower
+                                transaction
+                                fees,
+                                priority access to miles, and customized pricing to incentivize banks to commit to
+                                long-term
+                                partnerships.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="honors">
+                    <h2>Honors</h2>
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Stanford TreeHacks – Grand Prize Winner, Overall 2nd Place</h3>
+                        </div>
+                        <ul>
+                            <li>#2 overall out of 1000+ competitors at the world's most prestigious and largest
+                                collegiate
+                                hackathon.</li>
+                            <li>Built an agentic AI surgical robotics platform enabling multi-arm autonomous control via
+                                custom inverse kinematics, RealSense-based 3D mapping, multi-model vision (SAM, YOLO,
+                                Gemini
+                                Robotics ER 1.5), and formally verified safety-constrained trajectories in Lean.</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Crimson’s 18u18 list – Top 18 Most Influential Youth Under 18 Years Old</h3>
+                        </div>
+                        <ul>
+                            <li>Selected as one of the top 18 most impactful youth globally under 18 years old for
+                                founding
+                                NavAbility, representing 15 countries, with an acceptance rate of &lt;1%. Evaluated by
+                                judges
+                                from the Forbes 30 Under 30 list.</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Front Cover of the Shaughnessy Magazine (June edition, 2024)</h3>
+                        </div>
+                        <ul>
+                            <li>Cover Title: “Prodigy and Innovator. Changing The Assistive Tech Industry”</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Top 40 Most Impactful Canadian Youth Initiatives, by the Youth Impact Challenge</h3>
+                        </div>
+                        <ul>
+                            <li>NavAbility Technologies was regarded as the top 40 most impactful Canadian youth
+                                initiatives
+                                (July 2024).</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Canada Wide Science & Engineering Fair, 2x Gold Medalist, 2x Silver Medalist & Category
+                                Award
+                            </h3>
+                        </div>
+                        <ul>
+                            <li>Competed and won against the top 1% of student innovators across Canada for four
+                                consecutive
+                                years.</li>
+                        </ul>
+                    </div>
+
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Additional Recognitions</h3>
+                        </div>
+                        <ul>
+                            <li>Natural Sciences and Engineering Research Council of Canada Innovation Award, Dean of
+                                Faculty of
+                                Science Undergraduate Award Simon Fraser University, Provincial Engineers and
+                                Geoscientists
+                                of
+                                British Columbia Award, University of British Columbia Engineering Physics Award,
+                                National
+                                Ingenious+ Youth Innovation Challenge Winner.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="skills" class="skills-section">
+                    <h2>Skills</h2>
+                    <div><strong>Hardware &amp; Embedded:</strong> Altium, KiCad, I2C/SPI/UART, MOSFETs, Op-Amps, BLDC
+                        Control, IMUs, Soldering, 3D Printing</div>
+                    <div><strong>Software:</strong> C/C++, Python, Java</div>
+                    <div><strong>Design:</strong> SolidWorks, Fusion 360, Oscilloscopes, Signal Generators, Arduino IDE,
+                        Visual Studio Code</div>
+                    <div><strong>Languages:</strong> English (native), Chinese (intermediate)</div>
+                </section>
+
+                <section id="activities">
+                    <h2>Activities</h2>
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h3>Robojackets | <span>Electrical Team Member</span></h3>
+                            <span class="date">August 2025 – Present</span>
+                        </div>
+                        <ul>
+                            <li>Developed a Robot Shell ID system for a fleet of six autonomous RoboCup robots using a
+                                custom PCB integrated with a Teensy 4.1 microcontroller.</li>
+                            <li>Designed a compact PCB in KiCad utilizing 5 TCS34725 RGB sensors, an I2C multiplexer
+                                (MUX)
+                                for bus arbitration, and an LDO-based 3.3V power delivery system with reverse-polarity
+                                protection.</li>
+                            <li>Implemented hardware-level debugging infrastructure, including I2C pull-up resistors and
+                                debug headers to ensure signal integrity across high-speed data lines.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="notable" class="notable-section">
+                    <h2>Notable Experiences</h2>
+                    <div>
+                        Harvard Ventures Summer Program from Harvard School of Engineering, Code Club President, Science
+                        Club
+                        President, Maker and 3D Printing President, Student Government Executive, Technology Specialist
+                        Team
+                        Lead.
+                    </div>
+                </section>
+            </div>
+            <div id="section-resume" class="page-section" style="display: none;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Resume</h1>
+                <div style="width: 100%; aspect-ratio: 8.5 / 11; height: auto; min-height: 800px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid #eaeaea;">
+                    <iframe src="Resume/Resume%20Newest%20(1).pdf" width="100%" height="100%" style="border: none;"></iframe>
+                </div>
+            </div>
+                        <div id="section-career-goals" class="page-section" style="display: none;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Career Goals & Professional Development</h1>
+                
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    
+                    <!-- Vision & Threads -->
+                    <div class="update-card" style="flex: 1; min-width: 300px; padding: 2rem;">
+                        <h3 style="margin-top: 0; font-size: 1.5rem; border-bottom: 1px solid #eaeaea; padding-bottom: 0.5rem;">The Vision</h3>
+                        <p><strong>5-Year Goal:</strong> Work as a robotics engineer or launch my own product.</p>
+                        <p><strong>10-Year Goal:</strong> Become a principal engineer leading complex robotics projects or found my own robotics company.</p>
+                        <p><strong>Academic Threads:</strong> <em>Robotics</em> & <em>Circuit Technology</em>.<br>
+                        Robotics builds my systems and controls skills, while Circuit Technology strengthens the hardware foundation needed to physically build reliable robots.</p>
+                        <p><strong>Current Horizon:</strong> Engaging in deep hands-on projects, scaling involvement in RoboJackets, and pursuing undergraduate research to define exactly where I fit best.</p>
+                    </div>
+
+                    <!-- Annual Goals -->
+                    <div class="update-card" style="flex: 1; min-width: 300px; padding: 2rem;">
+                        <h3 style="margin-top: 0; font-size: 1.5rem; border-bottom: 1px solid #eaeaea; padding-bottom: 0.5rem;">Yearly Objectives</h3>
+                        <ul style="padding-left: 1.25rem;">
+                            <li style="margin-bottom: 1rem;"><strong>Year 1:</strong> Earn a 3.75+ GPA and maintain 80%+ primary course attendance while locking in 8-hours of sleep on a steady routine.</li>
+                            <li style="margin-bottom: 1rem;"><strong>Year 2:</strong> Secure a foundational robotics internship. Maintain physical health (exercising 3x/week).</li>
+                            <li style="margin-bottom: 0;"><strong>Year 3:</strong> Take a primary leadership role in an extracurricular club and explicitly lead a dedicated team project at RoboJackets.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- The Roadmap -->
+                <div class="update-card" style="margin-top: 2rem; padding: 2rem;">
+                    <h3 style="margin-top: 0; font-size: 1.5rem; border-bottom: 1px solid #eaeaea; padding-bottom: 0.5rem;">The Roadmap Forward</h3>
+                    <p>In order to become a principle robotics engineer and potentially found my own robotics company over the next decade, I must systematically target these milestones:</p>
+                    <ol style="padding-left: 1.25rem;">
+                        <li style="margin-bottom: 1rem;"><strong>Deepen Extracurricular Leadership (Years 1-3):</strong> Continue accelerating within <strong>RoboJackets</strong> and <strong>Startup Exchange</strong> over the next three years to build out hardcore technical engineering and business networking skillsets concurrently.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Acquire Industry Experience (Years 2-3):</strong> Aggressively pursue summer robotics internships and research positions starting in Year 2 to map my academic Circuit Technology thread directly into enterprise-grade hardware implementation.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Broaden Professional Development (Years 1-3):</strong> Engage cross-functionally with the <strong>Technology Consulting Group</strong> to solve real-world problems for tech companies, dramatically improving my client-facing and engineering communication skills.</li>
+                        <li><strong>Execute Capstone Vision (Year 3+):</strong> Spearhead and lead a unified team project at RoboJackets by Year 3, proving end-to-end technical lead capability right before graduation.</li>
+                    </ol>
+                </div>
+
+                <!-- Key Organizations -->
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
+                    <div class="update-card" style="flex: 1; min-width: 250px; padding: 1.5rem;">
+                        <h4 style="margin-top: 0; color: #0066cc;">Startup Exchange</h4>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;"><strong>Extracurricular:</strong> Learning how to turn conceptual ideas into real products and meeting other builders. (Weekly Thursdays 8-9 PM)</p>
+                    </div>
+                    <div class="update-card" style="flex: 1; min-width: 250px; padding: 1.5rem;">
+                        <h4 style="margin-top: 0; color: #0066cc;">Tech Consulting Group</h4>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;"><strong>Professional Dev:</strong> Solving real-world problems for tech companies and sharpening technical communication skills in a corporate dynamic.</p>
+                    </div>
+                    <div class="update-card" style="flex: 1; min-width: 250px; padding: 1.5rem;">
+                        <h4 style="margin-top: 0; color: #0066cc;">RoboJackets</h4>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;"><strong>Extracurricular:</strong> Building embedded robots ground-up and learning by doing inside a world-class collegiate robotics team.</p>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div id="section-project-coroshield" class="page-section" style="display: none; padding-bottom: 4rem;">
+                <a href="#projects" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #444; font-weight: 600; margin-bottom: 2rem; transition: color 0.2s;" onmouseover="this.style.color='#000';" onmouseout="this.style.color='#444';">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Projects
+                </a>
+                
+                <h1 style="font-size: 2.75rem; margin-bottom: 1rem; line-height: 1.2; text-align: center;">CoroShield: A Physical Distancing Evaluator for the Visually Impaired</h1>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; justify-content: center;">
+                    <span style="color: #666; font-weight: 600; font-size: 1.1rem; border-right: 2px solid #eaeaea; padding-right: 1rem; margin-right: 0.25rem;">2020</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Hardware Engineering</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Machine Learning</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Arduino (C++)</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Assistive Technology</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">3D Printing CAD</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Rapid Prototyping</span>
+                </div>
+                
+                <div style="position: relative; margin-bottom: 3rem;">
+                    
+                    <!-- Awards Embed Container -->
+                    <div style="position: absolute; top: -1.5rem; right: -1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 10;">
+                        
+                        <!-- CWSF Gold Medal -->
+                        <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 0.5rem 1rem; border-radius: 30px; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid rgba(255,255,255,0.5); cursor: default; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05) translateX(-5px)'" onmouseout="this.style.transform='scale(1)'">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                                <path d="M6 2L9.5 8.5L12 6L14.5 8.5L18 2H6Z" fill="#8E44AD"/>
+                                <circle cx="12" cy="14" r="8" fill="#F4C430"/>
+                                <circle cx="12" cy="14" r="6" fill="#F1C40F"/>
+                            </svg>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="font-size: 0.85rem; font-weight: 700; color: #111; line-height: 1.1;">Gold Medal</span>
+                                <span style="font-size: 0.7rem; color: #555; max-width: 140px; line-height: 1.1; margin-top: 0.15rem;">Canada Wide Science And Engineering Fair</span>
+                            </div>
+                        </div>
+
+                        <!-- Grand Winner Rosette -->
+                        <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 0.5rem 1rem; border-radius: 30px; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid rgba(255,255,255,0.5); cursor: default; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05) translateX(-5px)'" onmouseout="this.style.transform='scale(1)'">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                                <path d="M7 12L5 21L12 17L19 21L17 12" fill="#C0392B"/>
+                                <circle cx="12" cy="10" r="9" fill="#E74C3C"/>
+                                <path d="M12 5L13.5 8.5L17.5 9L15 11.5L15.5 15L12 13.5L8.5 15L9 11.5L6.5 9L10.5 8.5L12 5Z" fill="#FFF"/>
+                            </svg>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="font-size: 0.85rem; font-weight: 700; color: #111; line-height: 1.1;">Grand Winner</span>
+                                <span style="font-size: 0.7rem; color: #555; max-width: 140px; line-height: 1.1; margin-top: 0.15rem;">Digital Technology Track</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <img src="https://firebasestorage.googleapis.com/v0/b/project-leo-mvp.appspot.com/o/projects%2F46306?alt=media&token=2ba30aac-3142-4574-ac5e-05fe81ba84d8" alt="CoroShield Prototype" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-height: 500px; object-fit: cover;">
+                </div>
+                
+                <div style="max-width: 800px; line-height: 1.8; font-size: 1.1rem; color: #333;">
+                    
+                    <p style="margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 500; color: #222;">Social distancing can be a really difficult task for the visually impaired, who don't have the energy to constantly gauge the distance between them and another person when out in public. For them, the chances of contracting COVD-19 may even increase because of their struggle to socially distance, putting them in more danger than an average person.</p>
+                    
+                    <p style="margin-bottom: 2.5rem;">My self-developed module, CoroShield will not only help maintain social distancing among people, but it will also specifically be a new tool for the visually impaired. Using the combination of machine learning human identification and an Arduino development system, it accurately measures and distinguishes objects from people.</p>
+                    
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Why?</h2>
+                    
+                    <img src="Projects/Coroshield/why.jpg" loading="lazy" decoding="async" style="float: right; width: 40%; margin-left: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="CoroShield Use Case Motivation">
+                    
+                    <p style="margin-bottom: 1.5rem;">COVID-19 spreads mainly among people who are in close contact (within about 6 feet) for a very long period. Thus, today, social distancing has gradually become a new way of life globally as the threat of Covid-19 increases. But to the visually impaired, navigating a socially distanced world is a hard challenge. This means that they might have a high chance of exposing COVID-19. To solve this problem, I have come up with a prototype that will help create a socially distanced world for the visually impaired.</p>
+                    <p style="margin-bottom: 1.5rem;">Some corporations have already created technology that helps reinforce social distancing. For example, the security company Avigilon uses their security cameras and developed their thermal camera and social distancing technology. These cameras can measure the distance between two people in a stationary view using image predicament.</p>
+                    <p style="margin-bottom: 1.5rem;">As impressive as these existing devices already are, they have limitations. Avilgon’s thermal camera and social distancing technology can only be stationary and are fixed at a very specific angle, so this cannot specifically help a visually impaired person in the crowd of people. Also, the distance predicament technology is only using AI machine learning and does not use sensors such as a distance sensor.</p>
+                    <p style="margin-bottom: 2.5rem; clear: both;">In this project, CoroShield will be made to detach and attach to any surface (e.g backpacks, chest mount) thanks to the Neodymium rare earth magnets. In addition, it will accurately distinguish items and people and measure the distance between two people using an ultrasonic sensor.</p>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">How it Works</h2>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem;">
+                        <div style="flex: 1; min-width: 300px; background: #fafafa; padding: 1.5rem; border-radius: 8px; border: 1px solid #eaeaea;">
+                            <h3 style="margin-top: 0; font-size: 1.2rem; color: #0066cc; margin-bottom: 1rem;">Electronics & Hardware</h3>
+                            <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.95rem;">
+                                <li>Elegoo UNO R3 Board (ATmega328P)</li>
+                                <li>HC-SR04 Ultrasonic Module</li>
+                                <li>SH-D1602 16x2 IIC LCD Display Screen</li>
+                                <li>2 SG90 9G Micro Servo Motors with PCA9685 Driver</li>
+                                <li>HC-05 Bluetooth Module</li>
+                                <li>24V electronic Buzzer (CLT1083)</li>
+                                <li>9V Battery & DC Power Supply Module</li>
+                                <li>12 Neodymium magnets & Hardware Fasteners</li>
+                            </ul>
+                        </div>
+                        <div style="flex: 1; min-width: 300px; background: #fafafa; padding: 1.5rem; border-radius: 8px; border: 1px solid #eaeaea;">
+                            <h3 style="margin-top: 0; font-size: 1.2rem; color: #0066cc; margin-bottom: 1rem;">Software & Modeling</h3>
+                            <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.95rem; margin-bottom: 1.5rem;">
+                                <li>Ard Object Detection and Tracking (Android 4.1+)</li>
+                                <li>Arduino IDE Development Platform</li>
+                                <li>Cura Slicing Application & Ender 3 3D Printer</li>
+                            </ul>
+                            <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Interactive 3D Cad Models:</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                <a href="https://p3d.in/Vkr9G" target="_blank" style="background: #fff; border: 1px solid #ccc; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; text-decoration: none; color: #333;">Housing Case</a>
+                                <a href="https://p3d.in/sNmhx" target="_blank" style="background: #fff; border: 1px solid #ccc; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; text-decoration: none; color: #333;">Ultrasonic Case</a>
+                                <a href="https://p3d.in/SMQfV" target="_blank" style="background: #fff; border: 1px solid #ccc; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; text-decoration: none; color: #333;">LCD Case</a>
+                                <a href="https://p3d.in/kpWHk" target="_blank" style="background: #fff; border: 1px solid #ccc; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; text-decoration: none; color: #333;">Rotation Arm</a>
+                                <a href="https://p3d.in/Dtj8J" target="_blank" style="background: #fff; border: 1px solid #ccc; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; text-decoration: none; color: #333;">Safety Cap</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-bottom: 2.5rem;">
+                        <img src="Projects/Coroshield/how1%20(1).png" loading="lazy" decoding="async" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; border: 1px solid #eaeaea; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" alt="Hardware Prototype Component 1">
+                        <img src="Projects/Coroshield/how1%20(2).png" loading="lazy" decoding="async" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; border: 1px solid #eaeaea; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" alt="Hardware Prototype Component 2">
+                        <img src="Projects/Coroshield/how1%20(3).png" loading="lazy" decoding="async" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; border: 1px solid #eaeaea; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" alt="Hardware Prototype Component 3">
+                        <img src="Projects/Coroshield/how1%20(4).png" loading="lazy" decoding="async" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; border: 1px solid #eaeaea; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" alt="Hardware Prototype Component 4">
+                        <img src="Projects/Coroshield/how1%20(5).png" loading="lazy" decoding="async" style="width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; border: 1px solid #eaeaea; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" alt="Hardware Prototype Component 5">
+                    </div>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">What?</h2>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start;">
+                        <img src="Projects/Coroshield/what1.jpg" loading="lazy" decoding="async" style="flex: 1; width: 48%; border-radius: 8px; object-fit: cover; max-height: 250px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" alt="Project Results Data 1">
+                        <img src="Projects/Coroshield/what3.png" loading="lazy" decoding="async" style="flex: 1; width: 48%; border-radius: 8px; object-fit: contain; max-height: 250px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); background: #f9f9f9; padding: 0.5rem;" alt="Project Results Data 2">
+                    </div>
+
+                    <p style="margin-bottom: 1.5rem;">CoroShield, a self-made prototype project, is aimed to help the visually impaired to social distance. Using a combination of Arduino, machine learning, Solidworks 3D simulation, designing, and 3D printing, the device identifies whether a person or object comes within a 1.5m radius. It then notifies the person in front via LCD screen with warnings that increase in severity every 0.5m increments starting from 1.5 m and follows them using a swivel mechanism until they exit the radius. Its Neodymium magnets allow it to be attached to backpacks, chest straps, etc. for easy use among the visually impaired.</p>
+                    <p style="margin-bottom: 1.5rem;">The results of this project differed slightly from the original plan. Although the ultrasonic sensor was designed to be very accurate when fewer than 2 meters, the numbers varied during testing. In the normal temperature environment (18 degrees), the distance in which the device displayed its first message was an average of 101 cm instead of the expected 150cm. As well, the second display message appeared at an average of 48 cm instead of 50cm. Both results were lower than the programmed value. As a person cannot stay still within a 1 to 2 cm range, the numbers cannot be accurate; however, it is close to the desired value.</p>
+                    <p style="margin-bottom: 1.5rem;">In addition, the results demonstrated that the numbers fluctuated in different temperature environments. As the environment temperature increased, the distance of the warnings gradually decreased from 112cm to 91cm. After some research, it was found that the ultrasonic sensor works by sending a sound and listening for the echo when it bounces off an object; since the sound waves travel faster as the temperature increases, this means that the ultrasonic sensor responds differently in different environments. This also might be the main reason why the measured distance was different from the set distance.</p>
+                    <p style="margin-bottom: 2.5rem; font-weight: 500;">Overall, If CoroShield was to be widely replicated and distributed as a product, it will be able to help the visually impaired social distancing more effectively.</p>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">So What?</h2>
+                    
+                    <img src="Projects/Coroshield/sowhat.jpg" loading="lazy" decoding="async" style="float: left; width: 35%; margin-right: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="CoroShield Impact Conclusion">
+                    
+                    <p style="margin-bottom: 2.5rem;">For the visually impaired, social distancing can be a challenge. CoroSheild aims to help the visually impaired to social distance by utilizing Arduino and AI technology. Through several trials, it was found that although the temperature affects the current prototype’s measurements, it can still detect the approximate distance between the user and the crowd to the maximum distance of 2m. It can also accurately swivel to the location of the human. To conclude, although the current version of “CoroShield” is reliable in human detection, it is not the best form it can be due to the design of the HC-SR04 ultrasonic sensor. But by swapping out the ultrasonic sensor for an even better version, the potential of Coroshield can be fully realized as a device that can help the visually impaired social distance.</p>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; clear: both; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">What's Next?</h2>
+                    <p style="margin-bottom: 1.5rem;">In future studies, it is recommended to use a lidar sensor or time of flight sensor. These sensors offer extremely far and accurate distances due to their design. This can also be a solution to distance fluctuation in different temperatures, as the effect of temperature on the sensor will significantly decrease.</p>
+                    <p style="margin-bottom: 1.5rem;">If applicable, an mp3 player can be used for the project. This will allow CoroShield to have two times more functions. It will be able to notify the user by reading out the object in front with object machine learning.</p>
+
+                </div>
+            </div>
+
+
+            <div id="section-project-tk" class="page-section" style="display: none; padding-bottom: 4rem;">
+                <a href="#projects" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #444; font-weight: 600; margin-bottom: 2rem; transition: color 0.2s;" onmouseover="this.style.color='#000';" onmouseout="this.style.color='#444';">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Projects
+                </a>
+                
+                <h1 style="font-size: 2.75rem; margin-bottom: 1rem; line-height: 1.2; text-align: center;">Taking Control: A Novel Galvanic Stimulation Device for the Visually Impaired</h1>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; justify-content: center;">
+                    <span style="color: #666; font-weight: 600; font-size: 1.1rem; border-right: 2px solid #eaeaea; padding-right: 1rem; margin-right: 0.25rem;">2022</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Hardware Engineering</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Machine Learning</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Python Algorithm</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Assistive Technology</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Computer Vision</span>
+                </div>
+                
+                <div style="position: relative; margin-bottom: 3rem;">
+                    
+                    <!-- Awards Embed Container -->
+                    <div style="position: absolute; top: -1.5rem; right: -1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 10;">
+                        <!-- CWSF Gold Medal -->
+                        <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 0.5rem 1rem; border-radius: 30px; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid rgba(255,255,255,0.5); cursor: default; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05) translateX(-5px)'" onmouseout="this.style.transform='scale(1)'">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                                <path d="M6 2L9.5 8.5L12 6L14.5 8.5L18 2H6Z" fill="#8E44AD"/>
+                                <circle cx="12" cy="14" r="8" fill="#F4C430"/>
+                                <circle cx="12" cy="14" r="6" fill="#F1C40F"/>
+                            </svg>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="font-size: 0.85rem; font-weight: 700; color: #111; line-height: 1.1;">Gold Medal</span>
+                                <span style="font-size: 0.7rem; color: #555; max-width: 140px; line-height: 1.1; margin-top: 0.15rem;">Canada Wide Science And Engineering Fair</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <img src="Projects/TK/main.jpg" alt="Taking Control Prototype" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-height: 500px; object-fit: cover; object-position: center;">
+                </div>
+                
+                <div style="max-width: 800px; line-height: 1.8; font-size: 1.1rem; color: #333;">
+                    
+                    <p style="margin-bottom: 2.5rem; font-size: 1.25rem; font-weight: 500; color: #222;">It's a futuristic concept - being able to fully control and steer a person out of the trajectory of incoming objects and hazards. Although this seems impossible, utilizing a non-evasive procedure named the Galvanic Vestibular Stimulation (GVS), it was done safely and with few side effects. Using a special stereo sensor and an object detection algorithm, incoming objects within a 3-meter range are recognized. A Python algorithm then determines the best trajectory to avoid the object by sending WIFI packets to the GVS device. The GVS device then receives the packets and steers the subject autonomously according to the packets received.</p>
+                    
+                    <p style="margin-bottom: 2.5rem; font-weight: 500;">Through experimentation, it was found that the device could successfully detect, process, and transmit geospatial information to the GVS system, then steer the user into the correct trajectory to avoid any hazards obstructing the user’s path semi-autonomously.</p>
+                    
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Why?</h2>
+                    
+                    <img src="Projects/TK/why.png" loading="lazy" decoding="async" style="float: right; width: 45%; margin-left: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="Taking Control Use Case Motivation">
+                    
+                    <p style="margin-bottom: 1.5rem;">Today, an estimated 1.5 million Canadians (approximately 3.95% of Canada’s population) have trouble seeing even while wearing corrective lenses, and many use white canes, a device used to assist the visually impaired.</p>
+                    <p style="margin-bottom: 1.5rem;">The traditional white cane can be easily thought of as the effective primary device that enables the visually impaired to stay mobile and independent. However, there are some important limitations to the white cane that can leave the user prone to injury. Incoming objects moving at high speeds are impossible to detect due to the cane design. Additionally, white canes are limited to short-range usage, which gives users little time to react to their surroundings and increases the risk of colliding with objects.</p>
+                    <p style="margin-bottom: 1.5rem;">An important feature of an effective visual impairment aid device is the ability to react and transmit the information quickly and accurately to the user so that the person's ability to react and steer clear of the obstacle. Presently, there are many electronic devices available to aid the visually impaired. The UltraCane, introduced in 2010, is a white cane equipped with two ultrasound beams that can detect incoming obstacles and vibrate when an object comes within proximity. However, if multiple obstructions are presented in front of the user, UltraCane is only capable of vibrating to notify that there are incoming objects.</p>
+                    <p style="margin-bottom: 3rem; clear: both; font-weight: 500;">To target all these issues, the GVS device was developed. The purpose of this device is to create an innovative prototype that can provide semi-autonomous collision avoidance for the visually impaired.</p>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">How it Works</h2>
+                    
+                    <p style="margin-bottom: 1.5rem;">The project consists of 3 major parts: The Galvanic Vestibular Stimulation Device, the Intel RealSense D435 Depth Camera, and the Object Detection and Avoidance Algorithm.</p>
+                    
+                    <ul style="padding-left: 1.25rem; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 1rem;"><strong>Part 1: The GVS Logic Loop -</strong> When the GVS device is turned on, a Wi-Fi network is created using a module called the ESP8266. It feeds the inputs received to a custom-made circuit board. This board contains an H-bridge circuit that can control the direction of flow in the current and a current limiter for safety. After filtering out the command, the circuit board then drives an amount of current out through two electrode pads, which are attached to the vestibular system, and steers the user out of incoming objects.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Part 2: Active RealSense Stereo Logging -</strong> The second part of the project consists of an Intel RealSense Depth Camera that uses a method called Stereo Vision. Stereo Vision is the extraction of 3D information from digital 2D images. By comparing information about a scene from two different vantage points (similar to human eyes), 3D information can be collected by examining the relative positions of objects in the two panels. With the help of YOLOv5 and the data set from COCO, it was able to determine the real-world X, Y, and Z positions of common objects.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Part 3: Object Avoidance Algorithm -</strong> The final part of the project consisted of programming an object avoidance algorithm. The algorithm utilizes Intel’s open-source RealSense library as well as several other Python modules, notably pyttsx3 (text to speech function), socket (UDP packet sender/GVS information transmitter), and NumPy (computing tool).</li>
                     </ul>
-                </div>
+                    
+                    <img src="Projects/TK/how.png" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="System Architecture and Prototyping Flow">
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Accenture (DLB Associates), <span>Incoming Engineering Intern, Atlanta, GA</span></h3>
-                        <span class="date">May 2026 – August 2026</span>
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">What?</h2>
+                    
+                    <p style="margin-bottom: 1.5rem;">This project contained three major phases of experimentation.</p>
+                    
+                    <img src="Projects/TK/what.jpg" loading="lazy" decoding="async" style="float: right; width: 40%; margin-left: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="System Experimentation Matrix">
+                    
+                    <p style="margin-bottom: 1rem;"><strong>Phase 1: Experimenting with the GVS system</strong></p>
+                    <p style="margin-bottom: 1.5rem;">Part 1 of the experimentation consisted of finding the relationship between the voltage outputted and the head angular change. 10 trials, each with a duration of 5 seconds, were conducted. Utilizing a simple “for-loop” control flow statement, directions were sent from a computer to the GVS device through UDP packets.</p>
+
+                    <p style="margin-bottom: 1rem;"><strong>Phase 2: Trialing with Intel RealSense D435 Depth Camera, YOLOv5 Detection Algorithm, and Collision Avoidance Prediction Pathing</strong></p>
+                    <p style="margin-bottom: 1.5rem;">Part 2 of the experiments consisted of determining the accuracy of the pathing decision algorithm. A total of 6 objects were utilized to conduct the experiment. Each object was assigned to one of 3 separate categories: large, medium, and small. The controlled environment consisted of a wall on the left side, which obstructed the user’s path. The objects were placed in the middle, leaving the only possible clear path to the right. The accuracy was calculated based on the number of successful decisions the algorithm made; in this case, it should have outputted “right”. Each object was trialled 10 times from 1 meter, 2 meters, and 3 meters away. In total, 180 trials were conducted. It was found that large and distinctly coloured objects were more easily identified, therefore increasing the accuracy rate of the algorithm.</p>
+                    
+                    <p style="margin-bottom: 1rem; clear: both;"><strong>Phase 3: Merging the GVS System with the Camera, Object Detection, and Algorithm</strong></p>
+                    <p style="margin-bottom: 3rem;">The final part of the project consisted of experimenting with the system when both devices were merged. In total 4 trials were conducted, each with a different scenario. The experiments took place in a large open space, measuring 230 cm in width and 345 cm in length. This space was cut into a grid of 4x6 units, each unit approximately 60 cm by 60 cm. Each trial was recorded using a smartphone and was analyzed and mapped out after the trials were finished. Prior to the scenario setups, the participant, Justin Peng, was blindfolded. This was to minimize bias in data collection. The adult supervisor afterwards created a randomized scenario and arranged the objects.</p>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">So What?</h2>
+                    
+                    <img src="Projects/TK/so what.png" loading="lazy" decoding="async" style="float: left; width: 45%; margin-right: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="CoroShield Impact Conclusion">
+                    
+                    <p style="margin-bottom: 2.5rem;">Based on the results of this study, it can be concluded that the GVS device can recognize common objects and safely steer the user out of a collision >60% of the time without the need for the user’s control within the ranges of 0 – 3 meters. These results support the hypothesis. The purpose was to develop a novel approach to a semi-autonomous collision avoidance device for the visually impaired and allow it to be used in most real-life situations where a white cane is proven to be hazardous and unusable. Overall, this project was proven to be successful and the results provide an alternative innovative solution to traditional visual impairment aid devices by utilizing GVS, object detection, custom printed circuit boards, Python algorithms and depth cameras.</p>
+
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; clear: both; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">What's Next?</h2>
+                    
+                    <img src="Projects/TK/whats next.png" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="Future Implementations">
+                    
+                    <p style="margin-bottom: 1rem;"><strong>Four-Pole GVS:</strong></p>
+                    <p style="margin-bottom: 1.5rem;">The current device developed in this project utilizes a two-pole GVS, which can only control the user’s left and right roll movement. If four-pole GVS were implemented, the device would be able to provide a fully autonomous control to a human’s walking motions.</p>
+                    
+                    <p style="margin-bottom: 1rem;"><strong>Lidar & SLAM mapping:</strong></p>
+                    <p style="margin-bottom: 1.5rem;">Using LiDAR, geospatial data can be obtained and mapped out in 3D. This method is currently implemented in almost all fully autonomous driving cars. Utilizing this concept, together with four-pole GVS, a technology similar to that used in self-driving cars might be adapted for humans.</p>
+
+                </div>
+            </div>
+
+
+            <div id="section-project-hearnow" class="page-section" style="display: none; padding-bottom: 4rem;">
+                <a href="#projects" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #444; font-weight: 600; margin-bottom: 2rem; transition: color 0.2s;" onmouseover="this.style.color='#000';" onmouseout="this.style.color='#444';">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to Projects
+                </a>
+                
+                <h1 style="font-size: 2.75rem; margin-bottom: 1rem; line-height: 1.2; text-align: center;">HearNow: Low-Cost Augmented Reality-Enabled Eyewear for Dynamic 3D Spatial Speech Captioning</h1>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; justify-content: center;">
+                    <span style="color: #666; font-weight: 600; font-size: 1.1rem; border-right: 2px solid #eaeaea; padding-right: 1rem; margin-right: 0.25rem;">2024</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Augmented Reality</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Computer Vision</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Speech-To-Text</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Assistive Technology</span>
+                    <span style="background: #f4f5f7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: #555;">Wearables</span>
+                </div>
+                
+                <div style="position: relative; margin-bottom: 3rem;">
+                    <img src="Projects/hearNow/main.png" alt="HearNow Prototype" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-height: 500px; object-fit: cover; object-position: center;">
+                </div>
+                
+                <div style="max-width: 800px; line-height: 1.8; font-size: 1.1rem; color: #333;">
+                    
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Purpose</h2>
+                    
+                    <img src="Projects/hearNow/purpose.png" loading="lazy" decoding="async" style="float: right; width: 45%; margin-left: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="Project Purpose">
+                    
+                    <p style="margin-bottom: 1.5rem;">An estimated 1.57 billion people had hearing loss in 2019 [22], which serves as a testament to the significant global impact of this condition. This prevalence underscores the critical development of electronic telecommunication technologies (ETT), which can potentially enhance hearing-impaired individuals' lives, ideally increasing their independence and quality of life. ETTs’, such as real-time captions, have emerged as a critical tool for enhanced accessibility during various scenarios. These applications have encompassed a wide spectrum, for example, educational lecture videos [1], and group conversations [2]. However, despite continual developments in ETT, a singular device catering comprehensively to the hearing-impaired community's real-time communication needs remains elusive. Transcribe Glass [3], an augmentation device that affixes to a pair of glasses and synchronizes with a smartphone, utilizes low-resolution LCDs to present constrained captions. The necessitated manual adjustment concerning caption size, depth, and position of the captions decreases the attentional balance between the speaker and navigating the environment [4], rendering users vulnerable.</p>
+                    <p style="margin-bottom: 3rem; clear: both; font-weight: 500;">This research addresses the limitations of existing products, which require expensive commercially unavailable hardware; lack of automated spatial subtitle adjustment and speaker diarization; delay in real-time speech-to-text transcription; and challenges related to social acceptability. To address these challenges, this study utilizes consumer-grade head-worn display technology, validated by research to be acceptable by bystanders in social situations [10]; automatic speech recognition technology (ASR); alongside a novel low-resource visual speaker recognition algorithm; as well as a novel subtitle positioning method to replace the need of manually adjusting depth, size, and position of the captioning.</p>
+                    
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Methodology</h2>
+                    
+                    <img src="Projects/hearNow/methodology.png" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="System Architecture and Prototyping Flow">
+                    
+                    <p style="margin-bottom: 1.5rem;">The purpose of this device is to create a low-cost, augmented reality-enabled platform that will leverage low-cost XREAL [11] glasses with the NRSDK development platform [12] and ARcore implementation [13] to provide dynamically adjusting 3D spatial speech captioning. It utilizes 6DOF body tracking and 3DOF head tracking derived from the XREAL glasses and smartphone’s IMU, and ARcore’s body tracking [14], to allow the system to precisely track and align captioning boxes in high resolution to each individual the user engages with during conversations, eliminating the need for manual adjustments for the user. Transcriptions will be delivered at ultra-low latency with the collaborative ability to translate from one language to another in real time.</p>
+                    
+                    <div style="background: #fafafa; padding: 1.5rem; border-radius: 8px; border: 1px solid #eaeaea; margin-bottom: 1.5rem;">
+                        <h3 style="margin-top: 0; font-size: 1.2rem; color: #0066cc; margin-bottom: 1rem;">Research Highlight 2: Speech-To-Text and Captioning</h3>
+                        <p style="margin-bottom: 0; font-size: 0.95rem;">The real-time captioning process begins by converting microphone contents into linear16 format[17], transmitting to the API, and receiving JSON messages for analysis. If the JSON content isn’t empty, the program parses data from its structure for word-per-word analysis. Speaker identification within the JSON [18] output is determined using a majority vote system, considering the speaker with the most words and the highest confidence percentage within the sentence.</p>
                     </div>
-                    <ul>
-                        <li>Selected to join the Accenture Industry X practice following a majority-stake acquisition to
-                            accelerate end-to-end AI data center development for global hyperscale clients.</li>
-                    </ul>
-                </div>
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Rove Miles, <span>Business Development Intern, New York, NY</span></h3>
-                        <span class="date">June 2024 – August 2024</span>
+                    <div style="background: #fafafa; padding: 1.5rem; border-radius: 8px; border: 1px solid #eaeaea; margin-bottom: 3rem;">
+                        <h3 style="margin-top: 0; font-size: 1.2rem; color: #0066cc; margin-bottom: 1rem;">Research Highlight 3: Spatial Captioning</h3>
+                        <p style="margin-bottom: 0; font-size: 0.95rem;">Utilizing ARcore’s face tracking feature, as well as ARcore’s Raycasting feature, faces are automatically recognized, computed with depth, and optimally placed the subtitles below the person’s face. In combination with the directional awareness system, it discerns the user’s virtual coordinates versus in relation to the conversing speaker, effectively “attaching” the captioning box under the speaker. This dynamic tracking ensures that regardless of where the user’s or speaker’s movement is within the camera frame, FOV of 90 degrees, the system will consistently monitor and link the positions of the speaker and the user.</p>
                     </div>
-                    <div class="entry-subtitle">YC-backed startup (W24) developing a points-as-a-service fintech
-                        platform</div>
-                    <ul>
-                        <li>Directed a team to create a comprehensive pricing strategy for Rove Miles.</li>
-                        <li>Introduced a subscription-based revenue model that offers benefits like lower transaction
-                            fees,
-                            priority access to miles, and customized pricing to incentivize banks to commit to long-term
-                            partnerships.</li>
-                    </ul>
-                </div>
-            </section>
 
-            <section id="honors">
-                <h2>Honors</h2>
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Stanford TreeHacks – Grand Prize Winner, Overall 2nd Place</h3>
-                    </div>
-                    <ul>
-                        <li>#2 overall out of 1000+ competitors at the world's most prestigious and largest collegiate
-                            hackathon.</li>
-                        <li>Built an agentic AI surgical robotics platform enabling multi-arm autonomous control via
-                            custom inverse kinematics, RealSense-based 3D mapping, multi-model vision (SAM, YOLO, Gemini
-                            Robotics ER 1.5), and formally verified safety-constrained trajectories in Lean.</li>
-                    </ul>
-                </div>
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Analysis & Data</h2>
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Crimson’s 18u18 list – Top 18 Most Influential Youth Under 18 Years Old</h3>
-                    </div>
-                    <ul>
-                        <li>Selected as one of the top 18 most impactful youth globally under 18 years old for founding
-                            NavAbility, representing 15 countries, with an acceptance rate of &lt;1%. Evaluated by
-                            judges
-                            from the Forbes 30 Under 30 list.</li>
-                    </ul>
-                </div>
+                    <img src="Projects/hearNow/Analysis.png" loading="lazy" decoding="async" style="float: right; width: 45%; margin-left: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="Analysis and Data Metrics">
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Front Cover of the Shaughnessy Magazine (June edition, 2024)</h3>
-                    </div>
-                    <ul>
-                        <li>Cover Title: “Prodigy and Innovator. Changing The Assistive Tech Industry”</li>
-                    </ul>
-                </div>
+                    <p style="margin-bottom: 1rem;"><strong>Research Highlight 3 (Continued): Speaker Recognition Algorithm</strong></p>
+                    <p style="margin-bottom: 1.5rem;">An OnCameraFrameReceived method is triggered upon receiving a new camera frame, where the code acquires the latest CPU image from the ARCameraManager, converts it to the RGBA32 format, and sends it to the calculator graph for processing.</p>
+                    <p style="margin-bottom: 1.5rem;">The determineFinalSpeaker method within the calculator graph employs a voting mechanism to identify the dominant speaker among multiple faces. If a person accumulates enough votes, they are considered the speaker. Utilizing points indices 0, 14, 78, and 292, coordinates of the upper lip, lower lip, and left and right’s of a lip are extracted. Although more indices might seem advantageous, high numbers of indices may introduce noise and complexity, resulting in diminishing returns. These four coordinates are represented globally by: (x1, y1, z1), (x2, y2, z2), and (x3, y3, z3), (x4,y4,z4). The coordinates can then be connected to form a polygon. The polygon, as displayed above, is then bisected, forming 3 vertices of a triangle in 3D, which makes it possible to find the angles of the 6 vertices combined. The determination of six angles by establishing direction ratios, such as x2-x1, y2-y1, and z2-z1 for AB, and similar calculations for AC, BA, BC, CB, and CA is found.</p>
+                    <p style="margin-bottom: 1.5rem;">This procedure can be applied to all six angles. The six angles are then stored in a list. Because iterations of the program run per every frame, while video runs at 30 frames per second, 1 frame would be 1/30th of a second. For every 16 frames of the program, data is taken from the list and analyzed. The results are taken to be analyzed within a two-layer threshold comparison involving individual indices fluctuation analysis and total angle difference analysis. After finding which speaker is currently speaking through the algorithm, the corresponding caption list will be updated and displayed in the user’s user interface.</p>
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Top 40 Most Impactful Canadian Youth Initiatives, by the Youth Impact Challenge</h3>
-                    </div>
-                    <ul>
-                        <li>NavAbility Technologies was regarded as the top 40 most impactful Canadian youth initiatives
-                            (July 2024).</li>
-                    </ul>
-                </div>
+                    <p style="margin-bottom: 1.5rem; clear: both;">Experiments were carried out under controlled laboratory conditions. The following data depicts the performance of the speaker detection algorithm during a 10-second conversation between the user and the speaker positioned in front of it. Each angle corresponds to one of the six indices. The "voter constants" signify instances where the algorithm successfully passed both the initial individual threshold layer and the subsequent total threshold layer analysis. Additionally, metrics such as Voter Difference, Speaker Duration, Total Word Number, Speaker Confidence, and real-time augmented reality transcription were assessed for accuracy and consistency. Moreover, the spatial positioning trials, assessing the algorithm's precision in tracking various movements, underscore its adaptability and potential real-world applicability.</p>
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Canada Wide Science & Engineering Fair, 2x Gold Medalist, 2x Silver Medalist & Category
-                            Award
-                        </h3>
-                    </div>
-                    <ul>
-                        <li>Competed and won against the top 1% of student innovators across Canada for four consecutive
-                            years.</li>
-                    </ul>
-                </div>
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Conclusions</h2>
+                    
+                    <img src="Projects/hearNow/Conclusion.png" loading="lazy" decoding="async" style="float: left; width: 45%; margin-right: 2rem; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="CoroShield Impact Conclusion">
+                    
+                    <p style="margin-bottom: 1.5rem;">The execution of the Low-Cost Augmented Reality-Enabled Eyewear for Dynamic 3D Spatial Speech Captioning and Translation research project present a promising solution to the challenges faced by the hearing-impaired community in real-time communication. Leveraging consumer-grade head-worn display technology, automatic speech recognition technology, and a novel visual speaker recognition algorithm, the developed system surpasses existing limitations in electronic telecommunication technologies. The dynamic three-dimensional spatial captioning system, coupled with ultra-low latency speech-to-text transcriptions, offers an effective and affordable tool for hearing-impaired individuals, enhancing their accessibility and communication in diverse settings.</p>
+                    <p style="margin-bottom: 3rem; clear: both;">Moreover, the spatial positioning trials, assessing the algorithm's precision in tracking various movements, underscore its adaptability and potential real-world applicability. While recognizing potential sources of error, such as sensor noise and calibration inaccuracies, is crucial for further refinement, the developed system holds the promise of addressing critical needs in the hearing-impaired community. This research signifies a noteworthy advancement in the realm of communication technologies for the hearing-impaired, poised to significantly impact their daily lives by overcoming existing challenges and fostering greater independence and quality of communication.</p>
 
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Additional Recognitions</h3>
-                    </div>
-                    <ul>
-                        <li>Natural Sciences and Engineering Research Council of Canada Innovation Award, Dean of
-                            Faculty of
-                            Science Undergraduate Award Simon Fraser University, Provincial Engineers and Geoscientists
-                            of
-                            British Columbia Award, University of British Columbia Engineering Physics Award, National
-                            Ingenious+ Youth Innovation Challenge Winner.</li>
-                    </ul>
-                </div>
-            </section>
+                    <h2 style="font-size: 1.75rem; color: #000; margin-bottom: 1rem; clear: both; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem;">Future</h2>
+                    
+                    <img src="Projects/hearNow/Future.png" loading="lazy" decoding="async" style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" alt="Future Implementations">
+                    
+                    <p style="margin-bottom: 1.5rem;">Firstly, I intend to secure a Provisional Patent through the United States Patent and Trademark Office to protect our innovations. Additionally, A product team will be established in collaboration with the University of Regina, led by Dr. Cao Gao, a Ph.D. holder in Computer Science. A primary focus will be on optimizing the efficiency of core components such as the Speaker Detection Algorithm, Spatial Captioning System, and Speech-To-Text algorithm. To ensure a seamless user experience, a user interface will be developed. Finally, the project will undergo rigorous Quality Assurance, Revisions, and Beta Testing phases to refine and validate.</p>
 
-            <section id="skills" class="skills-section">
-                <h2>Skills</h2>
-                <div><strong>Hardware &amp; Embedded:</strong> Altium, KiCad, I2C/SPI/UART, MOSFETs, Op-Amps, BLDC
-                    Control, IMUs, Soldering, 3D Printing</div>
-                <div><strong>Software:</strong> C/C++, Python, Java</div>
-                <div><strong>Design:</strong> SolidWorks, Fusion 360, Oscilloscopes, Signal Generators, Arduino IDE,
-                    Visual Studio Code</div>
-                <div><strong>Languages:</strong> English (native), Chinese (intermediate)</div>
-            </section>
-
-            <section id="activities">
-                <h2>Activities</h2>
-                <div class="entry">
-                    <div class="entry-header">
-                        <h3>Robojackets | <span>Electrical Team Member</span></h3>
-                        <span class="date">August 2025 – Present</span>
-                    </div>
-                    <ul>
-                        <li>Developed a Robot Shell ID system for a fleet of six autonomous RoboCup robots using a
-                            custom PCB integrated with a Teensy 4.1 microcontroller.</li>
-                        <li>Designed a compact PCB in KiCad utilizing 5 TCS34725 RGB sensors, an I2C multiplexer (MUX)
-                            for bus arbitration, and an LDO-based 3.3V power delivery system with reverse-polarity
-                            protection.</li>
-                        <li>Implemented hardware-level debugging infrastructure, including I2C pull-up resistors and
-                            debug headers to ensure signal integrity across high-speed data lines.</li>
-                    </ul>
                 </div>
-            </section>
+            </div>
 
-            <section id="notable" class="notable-section">
-                <h2>Notable Experiences</h2>
-                <div>
-                    Harvard Ventures Summer Program from Harvard School of Engineering, Code Club President, Science
-                    Club
-                    President, Maker and 3D Printing President, Student Government Executive, Technology Specialist Team
-                    Lead.
+            <div id="section-projects" class="page-section" style="display: none;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Projects</h1>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+                    
+                    <!-- CoroShield Project Card -->
+                    <a href="#project-coroshield" class="update-card" style="align-self: start; cursor: pointer; text-decoration: none; display: block;">
+                        <div style="position: relative;">
+                            <div style="position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 0.5rem; z-index: 10; pointer-events: none;">
+                                <!-- CWSF Gold Medal Small -->
+                                <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 0.35rem 0.75rem; border-radius: 20px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5);">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 2L9.5 8.5L12 6L14.5 8.5L18 2H6Z" fill="#8E44AD"/>
+                                        <circle cx="12" cy="14" r="8" fill="#F4C430"/>
+                                        <circle cx="12" cy="14" r="6" fill="#F1C40F"/>
+                                    </svg>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: #111; line-height: 1.1;">Gold Medal</span>
+                                        <span style="font-size: 0.55rem; color: #555; max-width: 100px; line-height: 1.1;">Canada Wide Science Fair</span>
+                                    </div>
+                                </div>
+                                <!-- Grand Winner Rosette Small -->
+                                <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 0.35rem 0.75rem; border-radius: 20px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5);">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 12L5 21L12 17L19 21L17 12" fill="#C0392B"/>
+                                        <circle cx="12" cy="10" r="9" fill="#E74C3C"/>
+                                        <path d="M12 5L13.5 8.5L17.5 9L15 11.5L15.5 15L12 13.5L8.5 15L9 11.5L6.5 9L10.5 8.5L12 5Z" fill="#FFF"/>
+                                    </svg>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: #111; line-height: 1.1;">Grand Winner</span>
+                                        <span style="font-size: 0.55rem; color: #555; max-width: 100px; line-height: 1.1;">Digital Tech Track</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <img src="https://firebasestorage.googleapis.com/v0/b/project-leo-mvp.appspot.com/o/projects%2F46306?alt=media&token=2ba30aac-3142-4574-ac5e-05fe81ba84d8" alt="CoroShield Prototype" loading="lazy" decoding="async" style="width: 100%; max-height: 250px; object-fit: cover; object-position: center; border-radius: 8px 8px 0 0;">
+                        </div>
+                        <div class="update-card-content">
+                            <h3 class="update-card-title">CoroShield: A Physical Distancing Evaluator for the Visually Impaired</h3>
+                            <p class="update-card-desc" style="margin-bottom: 0;">A self-developed portable tracking module engineered to help visually impaired individuals maintain social distancing by combining machine learning human identification protocols with a strictly-timed Arduino hardware system.</p>
+                            <p style="margin: 1.5rem 0 0 0; color: #0066cc; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 0.25rem;">Read More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></p>
+                        </div>
+                    </a>
+
+                    <!-- Taking Control Project Card -->
+                    <a href="#project-tk" class="update-card" style="align-self: start; cursor: pointer; text-decoration: none; display: block;">
+                        <div style="position: relative;">
+                            <div style="position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 0.5rem; z-index: 10; pointer-events: none;">
+                                <!-- CWSF Gold Medal Small -->
+                                <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 0.35rem 0.75rem; border-radius: 20px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5);">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 2L9.5 8.5L12 6L14.5 8.5L18 2H6Z" fill="#8E44AD"/>
+                                        <circle cx="12" cy="14" r="8" fill="#F4C430"/>
+                                        <circle cx="12" cy="14" r="6" fill="#F1C40F"/>
+                                    </svg>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: #111; line-height: 1.1;">Gold Medal</span>
+                                        <span style="font-size: 0.55rem; color: #555; max-width: 100px; line-height: 1.1;">Canada Wide Science Fair</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <img src="Projects/TK/main.jpg" alt="Taking Control Prototype" loading="lazy" decoding="async" style="width: 100%; max-height: 250px; object-fit: cover; object-position: center; border-radius: 8px 8px 0 0;">
+                        </div>
+                        <div class="update-card-content">
+                            <h3 class="update-card-title">Taking Control: A Novel Galvanic Stimulation Device for the Visually Impaired</h3>
+                            <p class="update-card-desc" style="margin-bottom: 0;">An innovative prototype providing semi-autonomous collision avoidance for the visually impaired utilizing Galvanic Vestibular Stimulation (GVS) and Intel RealSense Depth cameras.</p>
+                            <p style="margin: 1.5rem 0 0 0; color: #0066cc; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 0.25rem;">Read More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></p>
+                        </div>
+                    </a>
+
+                    <!-- HearNow Project Card -->
+                    <a href="#project-hearnow" class="update-card" style="align-self: start; cursor: pointer; text-decoration: none; display: block;">
+                        <img src="Projects/hearNow/main.png" alt="HearNow AR Eyewear Prototype" loading="lazy" decoding="async" style="width: 100%; max-height: 250px; object-fit: cover; object-position: center; border-radius: 8px 8px 0 0;">
+                        <div class="update-card-content">
+                            <h3 class="update-card-title">HearNow: Low-Cost Augmented Reality-Enabled Eyewear for Dynamic 3D Spatial Speech Captioning</h3>
+                            <p class="update-card-desc" style="margin-bottom: 0;">An augmented reality-enabled platform leveraging low-cost XREAL glasses to provide ultra-low latency dynamically adjusting 3D spatial speech captioning and translation.</p>
+                            <p style="margin: 1.5rem 0 0 0; color: #0066cc; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 0.25rem;">Read More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></p>
+                        </div>
+                    </a>
+
                 </div>
-            </section>
+            </div>
         </main>
     </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const elements = document.querySelectorAll('header, section, .entry');
+        function showPage() {
+            // Get hash from URL, default to about-me
+            let hash = window.location.hash.substring(1) || 'home';
 
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -20px 0px"
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        // Optional: Stop observing once revealed
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            elements.forEach((el, index) => {
-                el.classList.add('reveal');
-                // Stagger initial load items slightly
-                if (index < 5) {
-                    el.style.transitionDelay = `${index * 0.05}s`;
-                }
-                observer.observe(el);
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.style.display = 'none';
             });
 
+            // Try to find the target section and show it
+            let target = document.getElementById('section-' + hash);
+            if (target) {
+                target.style.display = 'block';
+                // Remove opacity class if any, or trigger fade-in
+                target.style.opacity = '0';
+                setTimeout(() => {
+                    target.style.opacity = '1';
+                    target.style.transition = 'opacity 0.2s';
+                }, 10);
+            } else {
+                // fallback
+                let fallback = document.getElementById('section-about-me');
+                if (fallback) fallback.style.display = 'block';
+            }
+            window.scrollTo(0, 0);
+        }
 
-        });
+        // Listen for hash changes
+        window.addEventListener('hashchange', showPage);
+
+        // Run on initial load
+        document.addEventListener('DOMContentLoaded', showPage);
     </script>
 </body>
+
 
 </html>
