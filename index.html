@@ -591,11 +591,25 @@
             position: relative;
         }
         .masonry-col {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            flex: 1;
+            display: contents; /* On mobile, let children participate in .posts-masonry flex flow */
         }
+        
+        /* Interleave mobile display orders */
+        .masonry-col:nth-child(1) .update-card:nth-of-type(1) { order: 1; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(1) { order: 2; }
+        .masonry-col:nth-child(1) .update-card:nth-of-type(2) { order: 3; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(2) { order: 4; }
+        .masonry-col:nth-child(1) .update-card:nth-of-type(3) { order: 5; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(3) { order: 6; }
+        .masonry-col:nth-child(1) .update-card:nth-of-type(4) { order: 7; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(4) { order: 8; }
+        .masonry-col:nth-child(1) .update-card:nth-of-type(5) { order: 9; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(5) { order: 10; }
+        .masonry-col:nth-child(1) .update-card:nth-of-type(6) { order: 11; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(6) { order: 12; }
+        .masonry-col:nth-child(1) .update-card:nth-of-type(7) { order: 13; }
+        .masonry-col:nth-child(3) .update-card:nth-of-type(7) { order: 14; }
+
         .masonry-divider {
             display: none;
         }
@@ -606,6 +620,9 @@
                 padding-bottom: 2rem;
             }
             .masonry-col {
+                display: flex; /* Restore explicit column layout on desktop */
+                flex-direction: column;
+                gap: 2rem;
                 width: 45%;
                 flex: none;
             }
@@ -802,27 +819,47 @@
                     <div class="posts-masonry">
                         <!-- Left Column -->
                         <div class="masonry-col">
-                            <!-- Card 1 -->
-                        <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
-                            <img src="Post Images/treehacks-447.webp" alt="Stanford TreeHacks Grand Prize" loading="lazy" decoding="async" width="800" height="533">
-                            <div class="update-card-content">
-                                <h3 class="update-card-title">We won the Grand Prize at TreeHacks Stanford University</h3>
-                                <p class="update-card-desc">In just 36 hours, we built RoboSurge, "Cursor for Surgery", a platform enabling autonomous, remote surgical procedures from anywhere on Earth.</p>
-                                
-                                <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
-                                    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">How we did it:</p>
-                                    <p style="margin: 0 0 1rem 0;">
-                                        🔹 <strong>LLM Fusion:</strong> GPT-5.2 + Gemini Robotics-ER 1.5 + SAM + YOLOv11.<br>
-                                        🔹 <strong>The Math:</strong> Custom IK & Runge-Kutta numerical methods.<br>
-                                        🔹 <strong>Safety:</strong> Formally verified trajectories via Lean (Zero-AI proofs).<br>
-                                        🔹 <strong>Environment:</strong> Fully reproducible builds using Nix.
-                                    </p>
-                                    <p style="margin: 0 0 1rem 0;">This year TreeHacks had 378 project submissions on Devpost and 1,098 hackers selected from 15,000+ applicants around the globe!</p>
-                                    <p style="margin: 0 0 1rem 0;">Huge thanks to my incredible teammates Edward Li, Ananth Venkatesh, and Jason Zhao.</p>
-                                    <p style="margin: 0; font-weight: 600;">Check it out: <a href="https://lnkd.in/eTPRk4Cp" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://lnkd.in/eTPRk4Cp</a></p>
+                            <!-- Card YC -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/YCStartupSchool.webp" alt="Y Combinator's Startup School 2026" loading="lazy" decoding="async" width="800" height="auto">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">I've been accepted into Y Combinator's Startup School 2026</h3>
+                                    <p class="update-card-desc">Out of 30,000+ applicants, YC hand-picked a group of builders recognized for their ambition, intensity, and drive to create what doesn't yet exist.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0;">This year, YC is flying some of the most promising founders and builders from around the world to San Francisco for two days of talks, networking, and hands-on sessions.</p>
+                                        <p style="margin: 0 0 0.5rem 0; font-weight: 600;">The speaker lineup is unreal:</p>
+                                        <ul style="margin: 0 0 1rem 0; padding-left: 1.25rem;">
+                                            <li style="margin-bottom: 0.25rem;">Sam Altman (OpenAI)</li>
+                                            <li style="margin-bottom: 0.25rem;">Jensen Huang (NVIDIA)</li>
+                                            <li style="margin-bottom: 0.25rem;">Alexandr Wang (Meta)</li>
+                                            <li style="margin-bottom: 0.25rem;">Jeff Dean (Google DeepMind)</li>
+                                            <li style="margin-bottom: 0;">... and more</li>
+                                        </ul>
+                                        <p style="margin: 0; font-weight: 500;">Beyond the names on the stage, I'm most excited to meet the other builders in the room.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            
+                            <!-- Card New: LeadMe -->
+                            <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
+                                <img src="Post Images/LeadMe.webp" alt="LeadMe YHack Hardware Track 2nd Place" loading="lazy" decoding="async" width="800" height="auto">
+                                <div class="update-card-content">
+                                    <h3 class="update-card-title">We won the Hardware Track (2nd Place) at YHack Yale University</h3>
+                                    <p class="update-card-desc">Introducing LeadMe — an AI-powered, self-navigating white cane designed to give visually impaired users real-time guidance, not just detection.</p>
+                                    
+                                    <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
+                                        <p style="margin: 0 0 1rem 0; font-weight: 600;">Instead of reacting to obstacles, LeadMe actively guides you:</p>
+                                        <p style="margin: 0 0 1rem 0;">
+                                            🧠 <strong>Real-time obstacle avoidance:</strong> using depth sensing + computer vision<br>
+                                            🗣️ <strong>Natural voice warnings:</strong> and navigation<br>
+                                            🧭 <strong>Turn-by-turn routing:</strong> that you can feel through the cane
+                                        </p>
+                                        <p style="margin: 0 0 1rem 0;">A huge shoutout to my incredible teammates Artem Kim, Satchit Seth, and Sai Guvvala.</p>
+                                        <p style="margin: 0; font-weight: 600;">Check out our Devpost here: <a href="https://lnkd.in/eW3axAUh" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://lnkd.in/eW3axAUh</a></p>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Card 3: Hudson Weekly -->
                             <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
                                 <img src="Post Images/brightest%20innovators.webp" alt="Brightest Young Innovators of 2024" style="object-position: top;" loading="lazy" decoding="async" width="800" height="1323">
@@ -877,22 +914,24 @@
 
                         <!-- Right Column (Staggered) -->
                         <div class="masonry-col masonry-offset">
-                            <!-- Card New: LeadMe -->
+                            <!-- Card 1 -->
                             <div class="update-card" style="cursor: pointer;" onclick="const d = this.querySelector('.card-details'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">
-                                <img src="Post Images/LeadMe.webp" alt="LeadMe YHack Hardware Track 2nd Place" loading="lazy" decoding="async" width="800" height="auto">
+                                <img src="Post Images/treehacks-447.webp" alt="Stanford TreeHacks Grand Prize" loading="lazy" decoding="async" width="800" height="533">
                                 <div class="update-card-content">
-                                    <h3 class="update-card-title">We won the Hardware Track (2nd Place) at YHack Yale University</h3>
-                                    <p class="update-card-desc">Introducing LeadMe — an AI-powered, self-navigating white cane designed to give visually impaired users real-time guidance, not just detection.</p>
+                                    <h3 class="update-card-title">We won the Grand Prize at TreeHacks Stanford University</h3>
+                                    <p class="update-card-desc">In just 36 hours, we built RoboSurge, "Cursor for Surgery", a platform enabling autonomous, remote surgical procedures from anywhere on Earth.</p>
                                     
                                     <div class="card-details" style="display: none; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eaeaea; font-size: 0.95rem; color: #444; line-height: 1.6;">
-                                        <p style="margin: 0 0 1rem 0; font-weight: 600;">Instead of reacting to obstacles, LeadMe actively guides you:</p>
+                                        <p style="margin: 0 0 0.5rem 0; font-weight: 600;">How we did it:</p>
                                         <p style="margin: 0 0 1rem 0;">
-                                            🧠 <strong>Real-time obstacle avoidance:</strong> using depth sensing + computer vision<br>
-                                            🗣️ <strong>Natural voice warnings:</strong> and navigation<br>
-                                            🧭 <strong>Turn-by-turn routing:</strong> that you can feel through the cane
+                                            🔹 <strong>LLM Fusion:</strong> GPT-5.2 + Gemini Robotics-ER 1.5 + SAM + YOLOv11.<br>
+                                            🔹 <strong>The Math:</strong> Custom IK & Runge-Kutta numerical methods.<br>
+                                            🔹 <strong>Safety:</strong> Formally verified trajectories via Lean (Zero-AI proofs).<br>
+                                            🔹 <strong>Environment:</strong> Fully reproducible builds using Nix.
                                         </p>
-                                        <p style="margin: 0 0 1rem 0;">A huge shoutout to my incredible teammates Artem Kim, Satchit Seth, and Sai Guvvala.</p>
-                                        <p style="margin: 0; font-weight: 600;">Check out our Devpost here: <a href="https://lnkd.in/eW3axAUh" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://lnkd.in/eW3axAUh</a></p>
+                                        <p style="margin: 0 0 1rem 0;">This year TreeHacks had 378 project submissions on Devpost and 1,098 hackers selected from 15,000+ applicants around the globe!</p>
+                                        <p style="margin: 0 0 1rem 0;">Huge thanks to my incredible teammates Edward Li, Ananth Venkatesh, and Jason Zhao.</p>
+                                        <p style="margin: 0; font-weight: 600;">Check it out: <a href="https://lnkd.in/eTPRk4Cp" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: underline;">https://lnkd.in/eTPRk4Cp</a></p>
                                     </div>
                                 </div>
                             </div>
